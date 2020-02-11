@@ -14,7 +14,7 @@ export default class Spinner extends Component {
           alignItems: "center"
         }}
       >
-        <Loader type="ThreeDots" color="#9818d6" height={200} width={200} />
+        <Loader type="ThreeDots" color="#7388ff" height={200} width={200} />
       </div>
 
       // <Loader

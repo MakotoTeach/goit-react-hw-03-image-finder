@@ -9,14 +9,16 @@ function ImageGallery({ pictures, onSetLargeImage }) {
       {pictures.map(({ id, webformatURL, largeImageURL }) => (
         <ImageGalleryItem
           key={id}
-          webformatURL={webformatURL}
-          largeImageURL={largeImageURL}
+          webformatURL={webformatURL} 
+          largeImageURL={largeImageURL} 
           onSetLargeImage={onSetLargeImage}
         />
       ))}
     </ul>
   );
 }
+
+
 
 ImageGallery.propTypes = {
   pictures: PropTypes.arrayOf(

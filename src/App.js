@@ -12,8 +12,8 @@ export default class App extends Component {
     loading: false,
     error: null,
     searchQuery: "",
-    page: 1,
-    largeImage: null,
+    page: 0,
+    largeImage: null
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -23,37 +23,25 @@ export default class App extends Component {
     if (prevQuery !== nextQuery) {
       this.fetchPictures();
     }
-    const prevPage = prevState.page;
-    const nextPage = this.state.page;
 
-    if (prevPage !== nextPage && prevPage !== 1) {
+    if (this.state.page !== 1) {
       this.scrollToBottom();
-    }
-
-    if (this.state.largeImage) {
-      window.addEventListener("keydown", this.handleKeyDown);
     }
   }
 
-  handleKeyDown = e => {
-    // console.log(e);
-    if (e.code === "Escape") {
-      this.setState({ largeImage: null });
-      window.removeEventListener("keydown", this.handleKeyDown);
-    }
+  closeModal = () => {
+    this.setState({ largeImage: null });
   };
-
 
   fetchPictures = () => {
     const { searchQuery, page } = this.state;
-
-    this.setState({ loading: true });
+    const currentPage = page + 1;
+    this.setState({ loading: true, page: currentPage });
 
     picturesApi
-      .fetchPicturesByQuery(searchQuery, page)
+      .fetchPicturesByQuery(searchQuery, currentPage)
       .then(pictures =>
         this.setState(prevState => ({
-          page: prevState.page + 1,
           pictures: [...prevState.pictures, ...pictures]
         }))
       )
@@ -63,7 +51,7 @@ export default class App extends Component {
   };
 
   handleSearchFormSubmit = query => {
-    this.setState({ searchQuery: query, page: 1, pictures: [] });
+    this.setState({ searchQuery: query, page: 0, pictures: [] });
   };
 
   setLargeImage = largeImage => {
@@ -79,10 +67,11 @@ export default class App extends Component {
 
   render() {
     const { pictures, loading, error, largeImage } = this.state;
-
     return (
       <>
-        {largeImage && <Modal largeImage={largeImage} />}
+        {largeImage && (
+          <Modal onClose={this.closeModal} largeImage={largeImage} />
+        )}
         {error && <p>Whoops, something went wrong: {error.message}</p>}
         <Searchbar onSubmit={this.handleSearchFormSubmit} />
         {pictures.length > 0 && (

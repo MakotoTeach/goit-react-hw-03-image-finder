@@ -1,19 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { Component } from "react";
 import styles from "./Modal.module.css";
 
-function Modal({ largeImage }) {
-  return (
-    <div className={styles.Overlay}>
-      <div className={styles.Modal}>
-        <img src={largeImage} alt="" />
+export default class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillMount() {
+    window.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  handleKeyDown = e => {
+    if (e.code === "Escape") {
+      this.props.onClose();
+    }
+  };
+
+  render() {
+    return (
+      <div className={styles.Overlay}>
+        <div className={styles.Modal}>
+          <img src={this.props.largeImage} alt="" />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
-
-Modal.propTypes = {
-  largeImage: PropTypes.string.isRequired
-};
-
-export default Modal;
