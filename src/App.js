@@ -24,7 +24,7 @@ export default class App extends Component {
       this.fetchPictures();
     }
 
-    if (this.state.page !== 1) {
+    if (this.state.pictures !== prevState.pictures) {
       this.scrollToBottom();
     }
   }

@@ -11,7 +11,7 @@ function ImageGallery({ pictures, onSetLargeImage }) {
           key={id}
           webformatURL={webformatURL} 
           largeImageURL={largeImageURL} 
-          onSetLargeImage={onSetLargeImage}
+          onSetLargeImage={() => onSetLargeImage(largeImageURL)}
         />
       ))}
     </ul>

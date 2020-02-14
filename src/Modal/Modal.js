@@ -4,11 +4,18 @@ import styles from "./Modal.module.css";
 export default class Modal extends Component {
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener("click", this.handleMouseClick);
   }
 
   componentWillMount() {
     window.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener("click", this.handleMouseClick);
   }
+  handleOverlayClick = e => {
+    if (e.target === e.currentTarget) {
+      this.props.onClose();
+    }
+  };
 
   handleKeyDown = e => {
     if (e.code === "Escape") {
@@ -18,7 +25,7 @@ export default class Modal extends Component {
 
   render() {
     return (
-      <div className={styles.Overlay}>
+      <div className={styles.Overlay} onClick={this.handleOverlayClick}>
         <div className={styles.Modal}>
           <img src={this.props.largeImage} alt="" />
         </div>
