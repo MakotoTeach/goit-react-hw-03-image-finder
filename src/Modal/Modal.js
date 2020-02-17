@@ -4,12 +4,12 @@ import styles from "./Modal.module.css";
 export default class Modal extends Component {
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeyDown);
-    window.addEventListener("click", this.handleMouseClick);
+
   }
 
-  componentWillMount() {
+componentWillUnmount() {
     window.removeEventListener("keydown", this.handleKeyDown);
-    window.removeEventListener("click", this.handleMouseClick);
+ 
   }
   handleOverlayClick = e => {
     if (e.target === e.currentTarget) {
